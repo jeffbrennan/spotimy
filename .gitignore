@@ -1,0 +1,4 @@
+backend/
+.Rproj.user
+*.csv
+*.Rproj
