@@ -16,7 +16,7 @@ def get_song_info(song):
     print(f"Adding to library: {song['track']['artists'][0]['name']} - {song['track']['name']}")
 
     try:
-        timestamp = song['added_date']
+        timestamp = song['added_at']
     except KeyError: 
         timestamp = song['played_at']
 
@@ -25,7 +25,7 @@ def get_song_info(song):
         'artist': song['track']['artists'][0]['name'],
         'artist_id': song['track']['artists'][0]['id'],
         'album': song['track']['album']['name'],
-        'track': song['track']['name'] ,
+        'track': song['track']['name'],
         'track_id': song['track']['id']
     }
     return results
@@ -33,7 +33,7 @@ def get_song_info(song):
 
 def update_library(user):
     current_library = pd.read_csv(f'track_data/users/{user}/library.csv')
-    DT_START = current_library['added_date'].max()
+    DT_START = current_library['timestamp'].max()
 
     song_len = sp.current_user_saved_tracks(limit=1, offset=0, market=None)['total']
     all_songs = []
@@ -56,7 +56,7 @@ def update_library(user):
     new_song_df = pd.DataFrame(all_songs)
     song_df = pd.concat([current_library, new_song_df])
 
-    song_df.sort_values(by='added_date', ascending=False, inplace=True)
+    song_df.sort_values(by='timestamp', ascending=False, inplace=True)
     song_df.to_csv(f'track_data/users/{user}/library.csv', index=False)
 
 
