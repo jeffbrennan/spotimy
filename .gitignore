@@ -2,3 +2,4 @@ backend/
 .Rproj.user
 *.csv
 *.Rproj
+.cache
