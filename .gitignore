@@ -3,3 +3,4 @@ backend/
 *.csv
 *.Rproj
 .cache
+*.bat
