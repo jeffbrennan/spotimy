@@ -1,14 +1,13 @@
 
 # import requests
 import pandas as pd
-import re
-# from bs4 import BeautifulSoup
-from urllib.request import urlopen
-from urllib.error import HTTPError
-from lxml import etree
-from numpy import random
 from time import sleep
 import unidecode
+import re
+from numpy import random
+from urllib.error import HTTPError
+from urllib.request import urlopen
+from lxml import etree
 
 
 # https://www.geeksforgeeks.org/break-list-chunks-size-n-python/
@@ -72,8 +71,8 @@ def scrape_score(album_dict, i):
 
 
 def get_scores(user): 
-    user_library = pd.read_csv(f'{BASE_PATH}/users/{user}/library.csv')
-    p4k = pd.read_csv(f'{BASE_PATH}/p4k.csv')
+    user_library = pd.read_csv(f'{BASE_PATH}/track_data/users/{user}/library.csv')
+    p4k = pd.read_csv(f'{BASE_PATH}/reviews/p4k.csv')
 
     unique_albums = user_library.drop_duplicates(subset=['artist', 'album'])[['artist', 'album']]
     unique_p4k = p4k[['artist', 'album']]
@@ -89,7 +88,7 @@ def get_scores(user):
         for chunk in chunks:
             scores = [scrape_score(album_dict, i) for i in chunk]
             scores_df = pd.DataFrame(scores)
-            scores_df.to_csv(f'{BASE_PATH}/p4k.csv', mode='a', index=False, header=False)
+            scores_df.to_csv(f'{BASE_PATH}/reviews/p4k.csv', mode='a', index=False, header=False)
     else:
         print('No new albums!')
 
@@ -99,7 +98,7 @@ SCORE_XPATH_BNM = '/html/body/div[1]/div/main/article/div[1]/header/div[1]/div[2
 SCORE_XPATH_NO_BNM = '/html/body/div[1]/div/main/article/div[1]/header/div[1]/div[2]/div/div[2]/div/div/p'
 DATE_XPATH = '/html/body/div[1]/div/main/article/div[1]/header/div[3]/div/div/div/ul/li[3]/div/p[2]'
 DATE_XPATH2 = '/html/body/div[1]/div/main/article/div[1]/header/div[3]/div/div/div/ul/li[2]/div/p[2]'
-BASE_PATH = 'C:/Users/jeffb/Desktop/Life/personal-projects/spotify/track_data'
+BASE_PATH = 'C:/Users/jeffb/Desktop/Life/personal-projects/spotify/'
 
 STR_REPLACEMENTS = [
     ('[^0-9a-zA-Z|-]+', ''),
